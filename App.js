@@ -16,6 +16,9 @@ export default function App() {
         alert(`Archivos dentro de: ${uri}:\n\n${JSON.stringify(files)}`);
       }
     } catch (error) {
+      if (nombreDirectorio === null) {
+        alert(`ponele un nombre al directorio`);        
+      }
       alert(`directorio no accesible, selecciona otro`);
       console.log(error)
     }
@@ -55,13 +58,13 @@ export default function App() {
       <Text></Text>
       <Button
         onPress={readDirectory}
-        title="Read directory"
+        title="Leer directorio"
         style={styles.button}
       />
       <Text></Text>
       <Button
         onPress={createDirectory}
-        title="Create directory"
+        title="Crear directorio"
         style={styles.button}
       />
       <Text></Text>
@@ -73,7 +76,7 @@ export default function App() {
       <Text></Text>
       <Button
         onPress={deleteDirectory}
-        title="Delete directory"
+        title="Borrar directorio"
         style={styles.button}
       />
       <StatusBar style="auto" />
