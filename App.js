@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 
-export default function App() {
+export default function App() { 
 
-  // const directory = FileSystem.documentDirectory;
-  // console.log('directorio',directory)  
+  const [nombreDirectorio, setNombreDirectorio] = useState(null)
 
   const readDirectory = async () => {
-    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-    console.log('parte 1, permissions', permissions)
-    if (permissions.granted) {
-      const uri = permissions.directoryUri;
-      const files = await FileSystem.StorageAccessFramework.readDirectoryAsync(uri);
-      alert(`Files inside ${uri}:\n\n${JSON.stringify(files)}`);
+    try {
+      const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (permissions.granted) {
+        const uri = permissions.directoryUri;
+        const files = await FileSystem.StorageAccessFramework.readDirectoryAsync(uri);
+        alert(`Archivos dentro de: ${uri}:\n\n${JSON.stringify(files)}`);
+      }
+    } catch (error) {
+      alert(`directorio no accesible, selecciona otro`);
+      console.log(error)
     }
   }
 
   const createDirectory = async () => {
     try {
       const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-      console.log('parte 2, permissions', permissions)
       if (permissions.granted) {
         const uri = permissions.directoryUri;
-        await FileSystem.StorageAccessFramework.makeDirectoryAsync(uri, 'prueba');
-        alert(`directory "prueba" created`);
+        await FileSystem.StorageAccessFramework.makeDirectoryAsync(uri, nombreDirectorio);
+        alert(`directorio "${nombreDirectorio}" creado`);
       }
     } catch (error) {
+      alert(`directorio no accesible, selecciona otro`);
       console.log(error)
     }
   }
@@ -35,25 +38,24 @@ export default function App() {
   const deleteDirectory = async () => {
     try {
       const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-      console.log('parte 3, permissions', permissions)
       if (permissions.granted) {
         const uri = permissions.directoryUri;
         await FileSystem.StorageAccessFramework.deleteAsync(uri);
-        alert(`directory deleted`);
-      }
+        alert(`directorio eliminado`);
+      } 
     } catch (error) {
+      alert(`directorio no accesible`);
       console.log(error)
     }
   }
 
-
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>Ejemplos del FileSystem {`(Hecho con expo-file-system)`}</Text>
       <Text></Text>
       <Button
         onPress={readDirectory}
-        title="Read and access to directory"
+        title="Read directory"
         style={styles.button}
       />
       <Text></Text>
@@ -61,6 +63,12 @@ export default function App() {
         onPress={createDirectory}
         title="Create directory"
         style={styles.button}
+      />
+      <Text></Text>
+      <TextInput
+      style={styles.input}
+      onChangeText={setNombreDirectorio}
+      placeholder={'Nombre del directorio'}
       />
       <Text></Text>
       <Button
@@ -80,4 +88,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input:{
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  }
 });
