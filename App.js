@@ -8,7 +8,7 @@ export default function App() {
   // const directory = FileSystem.documentDirectory;
   // console.log('directorio',directory)  
 
-  const readAndAccessToDirectory = async () => {
+  const readDirectory = async () => {
     const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
     console.log('parte 1, permissions', permissions)
     if (permissions.granted) {
@@ -52,7 +52,7 @@ export default function App() {
       <Text>Open up App.js to start working on your app!</Text>
       <Text></Text>
       <Button
-        onPress={readAndAccessToDirectory}
+        onPress={readDirectory}
         title="Read and access to directory"
         style={styles.button}
       />
