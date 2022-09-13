@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TextInput, Pressable } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 
 export default function App() { 
@@ -54,31 +54,36 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Ejemplos del FileSystem {`(Hecho con expo-file-system)`}</Text>
+      <Text style={styles.titulo}>Ejemplos del FileSystem {`(Hecho con expo-file-system)`}</Text>
       <Text></Text>
-      <Button
-        onPress={readDirectory}
-        title="Leer directorio"
-        style={styles.button}
-      />
+      <Pressable
+      onPress={readDirectory}
+      style={styles.boton}>
+        <Text style={styles.texto}>Leer directorio</Text>
+        </Pressable>
       <Text></Text>
-      <Button
-        onPress={createDirectory}
-        title="Crear directorio"
-        style={styles.button}
-      />
-      <Text></Text>
+
+      <View style={{flexDirection: 'row', justifyContent: "space-evenly"}}>
       <TextInput
       style={styles.input}
       onChangeText={setNombreDirectorio}
       placeholder={'Nombre del directorio'}
       />
+        <Text></Text>
+      <Pressable
+      onPress={createDirectory}
+      style={styles.boton}>
+        <Text style={styles.texto}>Crear directorio</Text>
+        </Pressable>
+
+      </View>
       <Text></Text>
-      <Button
-        onPress={deleteDirectory}
-        title="Borrar directorio"
-        style={styles.button}
-      />
+
+      <Pressable
+      onPress={deleteDirectory}
+      style={styles.botonEliminar}>
+        <Text style={styles.texto}>Eliminar directorio</Text>
+        </Pressable>
       <StatusBar style="auto" />
     </View>
   );
@@ -86,15 +91,46 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    //#bd12e3
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#9508cc',
     alignItems: 'center',
     justifyContent: 'center',
   },
   input:{
     height: 40,
-    margin: 12,
-    borderWidth: 1,
     padding: 10,
+    backgroundColor: "#FFF",
+    borderRadius: 100,
+    marginRight: "4%",
+    width: 200
+  },
+  boton:{
+    borderRadius: 100,
+    backgroundColor: "#bd12e3",
+    height: 40,
+    width: "30%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  texto:{
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: "bold"
+  },
+  botonEliminar:{
+    borderRadius: 100,
+    backgroundColor: "#c92037",
+    height: 40,
+    width: "34%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  titulo:{
+    color: "#FFF",
+    fontSize: 23,
+    textAlign: "center",
+    fontWeight: "bold",
+    margin: 30
   }
 });
